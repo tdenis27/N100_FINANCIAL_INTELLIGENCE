@@ -1,0 +1,13 @@
+file,original_rows,cleaned_rows,original_columns,cleaned_columns,removed_rows,output
+analysis.xlsx,20,20,6,6,0,C:\N100_FINANCIAL_INTELLIGENCE\data\processed\analysis.csv
+balancesheet.xlsx,1312,1312,13,13,0,C:\N100_FINANCIAL_INTELLIGENCE\data\processed\balancesheet.csv
+cashflow.xlsx,1187,1187,7,7,0,C:\N100_FINANCIAL_INTELLIGENCE\data\processed\cashflow.csv
+companies.xlsx,92,92,12,12,0,C:\N100_FINANCIAL_INTELLIGENCE\data\processed\companies.csv
+documents.xlsx,1585,1585,4,4,0,C:\N100_FINANCIAL_INTELLIGENCE\data\processed\documents.csv
+profitandloss.xlsx,1276,1276,15,15,0,C:\N100_FINANCIAL_INTELLIGENCE\data\processed\profitandloss.csv
+prosandcons.xlsx,16,16,4,4,0,C:\N100_FINANCIAL_INTELLIGENCE\data\processed\prosandcons.csv
+financial_ratios.xlsx,1183,1183,16,15,0,C:\N100_FINANCIAL_INTELLIGENCE\data\processed\financial_ratios.csv
+market_cap.xlsx,551,551,9,9,0,C:\N100_FINANCIAL_INTELLIGENCE\data\processed\market_cap.csv
+peer_groups.xlsx,55,55,4,4,0,C:\N100_FINANCIAL_INTELLIGENCE\data\processed\peer_groups.csv
+sectors.xlsx,91,91,6,6,0,C:\N100_FINANCIAL_INTELLIGENCE\data\processed\sectors.csv
+stock_prices.xlsx,5519,5519,9,9,0,C:\N100_FINANCIAL_INTELLIGENCE\data\processed\stock_prices.csv

@@ -1,0 +1,20 @@
+rule,table,severity,failures,message
+DQ-03,analysis.xlsx,CRITICAL,4,Foreign key integrity check
+DQ-02,balancesheet.xlsx,CRITICAL,87,company_id and year uniqueness
+DQ-03,balancesheet.xlsx,CRITICAL,85,Foreign key integrity check
+DQ-02,cashflow.xlsx,CRITICAL,23,company_id and year uniqueness
+DQ-03,cashflow.xlsx,CRITICAL,96,Foreign key integrity check
+DQ-16,companies.xlsx,WARNING,1,BSE profile coverage check
+DQ-02,documents.xlsx,CRITICAL,1,company_id and year uniqueness
+DQ-03,documents.xlsx,CRITICAL,128,Foreign key integrity check
+DQ-02,profitandloss.xlsx,CRITICAL,13,company_id and year uniqueness
+DQ-03,profitandloss.xlsx,CRITICAL,99,Foreign key integrity check
+DQ-05,profitandloss.xlsx,WARNING,234,OPM cross-check
+DQ-06,profitandloss.xlsx,CRITICAL,1,Sales must be positive
+DQ-15,profitandloss.xlsx,WARNING,3,EPS sign cross-check
+DQ-03,prosandcons.xlsx,CRITICAL,2,Foreign key integrity check
+DQ-01,financial_ratios.xlsx,CRITICAL,1,id column not found
+DQ-01,market_cap.xlsx,CRITICAL,1,id column not found
+DQ-01,peer_groups.xlsx,CRITICAL,1,id column not found
+DQ-01,sectors.xlsx,CRITICAL,1,id column not found
+DQ-01,stock_prices.xlsx,CRITICAL,1,id column not found

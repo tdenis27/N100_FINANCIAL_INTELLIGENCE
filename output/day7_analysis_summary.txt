@@ -1,0 +1,32 @@
+NIFTY 100 FINANCIAL INTELLIGENCE
+DAY 7 - EXPLORATORY FINANCIAL ANALYSIS SUMMARY
+======================================================================
+
+Companies Analysed: 92
+Financial Metric Columns: 33
+Company Ranking Records: 92
+
+Average Financial Health Score: 50.26
+Highest Financial Health Score: 85.71
+Lowest Financial Health Score: 16.26
+
+TOP RANKED COMPANY
+----------------------------------------------------------------------
+Company: ITC Ltd
+Financial Health Score: 85.71
+Financial Rating: EXCELLENT
+
+DATA AVAILABILITY
+----------------------------------------------------------------------
+roe_percentage: 90/92 (97.83%)
+roce_percentage: 91/92 (98.91%)
+net_profit_margin_percentage: 92/92 (100.00%)
+debt_to_asset_ratio: 91/92 (98.91%)
+latest_operating_cash_flow: 91/92 (98.91%)
+compounded_sales_growth: 0/92 (0.00%)
+compounded_profit_growth: 0/92 (0.00%)
+stock_price_cagr: 0/92 (0.00%)
+
+======================================================================
+DAY 7 EXPLORATORY FINANCIAL ANALYSIS COMPLETED
+======================================================================

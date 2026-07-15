@@ -1,0 +1,13 @@
+file,table,csv_rows,database_rows,status
+analysis.csv,analysis,20,20,PASS
+balancesheet.csv,balancesheet,1312,1312,PASS
+cashflow.csv,cashflow,1187,1187,PASS
+companies.csv,companies,92,92,PASS
+documents.csv,documents,1585,1585,PASS
+financial_ratios.csv,financial_ratios,1183,1183,PASS
+market_cap.csv,market_cap,551,551,PASS
+peer_groups.csv,peer_groups,55,55,PASS
+profitandloss.csv,profitandloss,1276,1276,PASS
+prosandcons.csv,prosandcons,16,16,PASS
+sectors.csv,sectors,91,91,PASS
+stock_prices.csv,stock_prices,5519,5519,PASS

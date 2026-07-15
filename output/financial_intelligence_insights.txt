@@ -1,0 +1,19 @@
+1. ITC Ltd has the highest financial health score of 85.71.
+
+2. Nestle India Ltd records the highest ROE of 135.61%.
+
+3. Nestle India Ltd records the highest ROCE of 185.43%.
+
+4. Bajaj Holdings & Investment Ltd has the highest net profit margin of 431.97%.
+
+5. Compounded sales growth data is unavailable for the current company metrics dataset.
+
+6. Compounded profit growth data is unavailable for the current company metrics dataset.
+
+7. Stock price CAGR data is unavailable for the current company metrics dataset.
+
+8. Reliance Industries Ltd reports the highest latest operating cash flow of 158788.00.
+
+9. The most common financial rating is AVERAGE, assigned to 30 companies.
+
+10. 75 of 91 companies with available cash-flow data report positive operating cash flow (82.42%).

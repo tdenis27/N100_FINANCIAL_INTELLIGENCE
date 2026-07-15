@@ -1,0 +1,174 @@
+======================================================================
+NIFTY 100 FINANCIAL INTELLIGENCE
+DATABASE TABLE AND COLUMN SCHEMA
+======================================================================
+
+TOTAL TABLES: 12
+
+----------------------------------------------------------------------
+TABLE: analysis
+TOTAL COLUMNS: 6
+COLUMNS:
+  1. id
+  2. company_id
+  3. compounded_sales_growth
+  4. compounded_profit_growth
+  5. stock_price_cagr
+  6. roe
+
+----------------------------------------------------------------------
+TABLE: balancesheet
+TOTAL COLUMNS: 13
+COLUMNS:
+  1. id
+  2. company_id
+  3. year
+  4. equity_capital
+  5. reserves
+  6. borrowings
+  7. other_liabilities
+  8. total_liabilities
+  9. fixed_assets
+  10. cwip
+  11. investments
+  12. other_asset
+  13. total_assets
+
+----------------------------------------------------------------------
+TABLE: cashflow
+TOTAL COLUMNS: 7
+COLUMNS:
+  1. id
+  2. company_id
+  3. year
+  4. operating_activity
+  5. investing_activity
+  6. financing_activity
+  7. net_cash_flow
+
+----------------------------------------------------------------------
+TABLE: companies
+TOTAL COLUMNS: 12
+COLUMNS:
+  1. id
+  2. company_logo
+  3. company_name
+  4. chart_link
+  5. about_company
+  6. website
+  7. nse_profile
+  8. bse_profile
+  9. face_value
+  10. book_value
+  11. roce_percentage
+  12. roe_percentage
+
+----------------------------------------------------------------------
+TABLE: documents
+TOTAL COLUMNS: 4
+COLUMNS:
+  1. id
+  2. company_id
+  3. year
+  4. annual_report
+
+----------------------------------------------------------------------
+TABLE: financial_ratios
+TOTAL COLUMNS: 15
+COLUMNS:
+  1. Unnamed: 0
+  2. abb
+  3. dec_2012
+  4. Unnamed: 3
+  5. Unnamed: 4
+  6. Unnamed: 5
+  7. Unnamed: 6
+  8. Unnamed: 7
+  9. Unnamed: 8
+  10. Unnamed: 9
+  11. Unnamed: 10
+  12. Unnamed: 11
+  13. Unnamed: 12
+  14. 0.1
+  15. Unnamed: 14
+
+----------------------------------------------------------------------
+TABLE: market_cap
+TOTAL COLUMNS: 9
+COLUMNS:
+  1. Unnamed: 0
+  2. abb
+  3. Unnamed: 2
+  4. Unnamed: 3
+  5. Unnamed: 4
+  6. Unnamed: 5
+  7. Unnamed: 6
+  8. Unnamed: 7
+  9. Unnamed: 8
+
+----------------------------------------------------------------------
+TABLE: peer_groups
+TOTAL COLUMNS: 4
+COLUMNS:
+  1. Unnamed: 0
+  2. private_banks
+  3. hdfcbank
+  4. true.1
+
+----------------------------------------------------------------------
+TABLE: profitandloss
+TOTAL COLUMNS: 15
+COLUMNS:
+  1. id
+  2. company_id
+  3. year
+  4. sales
+  5. expenses
+  6. operating_profit
+  7. opm_percentage
+  8. other_income
+  9. interest
+  10. depreciation
+  11. profit_before_tax
+  12. tax_percentage
+  13. net_profit
+  14. eps
+  15. dividend_payout
+
+----------------------------------------------------------------------
+TABLE: prosandcons
+TOTAL COLUMNS: 4
+COLUMNS:
+  1. id
+  2. company_id
+  3. pros
+  4. cons
+
+----------------------------------------------------------------------
+TABLE: sectors
+TOTAL COLUMNS: 6
+COLUMNS:
+  1. Unnamed: 0
+  2. abb
+  3. industrials
+  4. capital_goods
+  5. Unnamed: 4
+  6. large_cap
+
+----------------------------------------------------------------------
+TABLE: stock_prices
+TOTAL COLUMNS: 9
+COLUMNS:
+  1. Unnamed: 0
+  2. abb
+  3. 2020_01_01
+  4. Unnamed: 3
+  5. Unnamed: 4
+  6. Unnamed: 5
+  7. Unnamed: 6
+  8. Unnamed: 7
+  9. 1964.3.1
+
+======================================================================
+DATABASE SCHEMA INSPECTION COMPLETED
+======================================================================
