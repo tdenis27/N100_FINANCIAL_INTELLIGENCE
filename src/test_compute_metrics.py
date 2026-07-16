@@ -1,5 +1,5 @@
 from pathlib import Path
-
+from ratios import *
 import pandas as pd
 
 
@@ -255,3 +255,17 @@ def verify_financial_metrics():
 
 if __name__ == "__main__":
     verify_financial_metrics()
+    
+    
+
+def test_net_profit_margin():
+    assert net_profit_margin(100, 1000) == 10.0
+
+def test_operating_profit_margin():
+    assert operating_profit_margin(200, 1000) == 20.0
+
+def test_return_on_equity():
+    assert return_on_equity(100, 500) == 20.0
+
+def test_return_on_assets():
+    assert return_on_assets(100, 1000) == 10.0
