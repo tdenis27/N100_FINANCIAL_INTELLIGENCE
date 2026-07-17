@@ -5,6 +5,40 @@ import numpy as np
 import pandas as pd
 
 
+from ratios import (
+    net_profit_margin,
+    operating_profit_margin,
+    return_on_equity,
+    return_on_capital_employed,
+    return_on_assets,
+    asset_turnover_ratio,
+    debt_to_equity,
+    interest_coverage,
+    net_debt,
+    operating_cash_flow_ratio,
+    free_cash_flow_ratio,
+    earnings_per_share,
+    dividend_payout_ratio,
+    book_value_per_share,
+)
+
+
+from cagr import (
+    revenue_cagr,
+    pat_cagr,
+    eps_cagr,
+)
+
+from cashflow_kpis import (
+    free_cash_flow,
+    operating_cash_flow_ratio as cashflow_kpi_ocf_ratio,
+    cfo_quality_score,
+    capex_intensity,
+    fcf_conversion_ratio,
+    capital_allocation_pattern,
+)
+
+
 # ============================================================
 # NIFTY 100 FINANCIAL INTELLIGENCE
 # DAY 6 - FINANCIAL METRICS ENGINE
@@ -97,6 +131,8 @@ def load_financial_data(connection):
             company_id,
             year,
             operating_activity,
+            investing_activity,
+            financing_activity,
             net_cash_flow
         FROM cashflow
         """,
@@ -321,6 +357,8 @@ def prepare_cash_flow(cash_flow):
     numeric_columns = [
         "year",
         "operating_activity",
+        "investing_activity",
+        "financing_activity",
         "net_cash_flow"
     ]
 
@@ -354,6 +392,12 @@ def prepare_cash_flow(cash_flow):
             "operating_activity": (
                 "latest_operating_cash_flow"
             ),
+            "investing_activity": (
+                "latest_investing_cash_flow"
+            ),
+            "financing_activity": (
+                "latest_financing_cash_flow"
+            ),
             "net_cash_flow": (
                 "latest_net_cash_flow"
             )
@@ -364,6 +408,8 @@ def prepare_cash_flow(cash_flow):
         [
             "company_id",
             "latest_operating_cash_flow",
+            "latest_investing_cash_flow",
+            "latest_financing_cash_flow",
             "latest_net_cash_flow"
         ]
     ]
@@ -400,6 +446,319 @@ def prepare_analysis(analysis):
     )
 
     return data
+
+
+def prepare_cagr_metrics(profit_loss):
+    """
+    Calculate Revenue, PAT (net profit) and EPS CAGR per company
+    using the earliest and latest reported years available in
+    the profit and loss data.
+    """
+
+    data = profit_loss.copy()
+
+    numeric_columns = [
+        "year",
+        "sales",
+        "net_profit",
+        "eps"
+    ]
+
+    for column in numeric_columns:
+        data[column] = safe_numeric(
+            data[column]
+        )
+
+    data = data.dropna(
+        subset=[
+            "company_id",
+            "year"
+        ]
+    )
+
+    data = data.sort_values(
+        [
+            "company_id",
+            "year"
+        ]
+    )
+
+    first_year = (
+        data
+        .groupby(
+            "company_id",
+            as_index=False
+        )
+        .first()
+    )
+
+    last_year = (
+        data
+        .groupby(
+            "company_id",
+            as_index=False
+        )
+        .last()
+    )
+
+    spans = first_year.merge(
+        last_year,
+        on="company_id",
+        suffixes=("_start", "_end")
+    )
+
+    spans["num_years"] = (
+        spans["year_end"]
+        - spans["year_start"]
+    )
+
+    def _safe_cagr(function, start_value, end_value, num_years):
+        if (
+            pd.isna(start_value)
+            or pd.isna(end_value)
+            or pd.isna(num_years)
+            or num_years <= 0
+            or start_value <= 0
+        ):
+            return np.nan
+
+        return function(
+            start_value,
+            end_value,
+            num_years
+        )
+
+    spans["revenue_cagr_percentage"] = spans.apply(
+        lambda row: _safe_cagr(
+            revenue_cagr,
+            row["sales_start"],
+            row["sales_end"],
+            row["num_years"]
+        ),
+        axis=1
+    )
+
+    spans["pat_cagr_percentage"] = spans.apply(
+        lambda row: _safe_cagr(
+            pat_cagr,
+            row["net_profit_start"],
+            row["net_profit_end"],
+            row["num_years"]
+        ),
+        axis=1
+    )
+
+    spans["eps_cagr_percentage"] = spans.apply(
+        lambda row: _safe_cagr(
+            eps_cagr,
+            row["eps_start"],
+            row["eps_end"],
+            row["num_years"]
+        ),
+        axis=1
+    )
+
+    return spans[
+        [
+            "company_id",
+            "num_years",
+            "revenue_cagr_percentage",
+            "pat_cagr_percentage",
+            "eps_cagr_percentage"
+        ]
+    ]
+
+
+def prepare_cashflow_kpis(cash_flow, profit_loss, balance_sheet):
+    """
+    Calculate cash-flow quality KPIs per company using the latest
+    reported year of cash flow, profit and loss, and balance sheet
+    data.
+
+    ASSUMPTION: operating_cash_flow_ratio() expects
+    current_liabilities, but the balancesheet table only exposes
+    total_liabilities in this pipeline. total_liabilities is used
+    as a proxy below -- swap in a real current_liabilities column
+    if one exists in your schema.
+    """
+
+    cash_data = cash_flow.copy()
+
+    cash_numeric_columns = [
+        "year",
+        "operating_activity",
+        "investing_activity",
+        "financing_activity"
+    ]
+
+    for column in cash_numeric_columns:
+        cash_data[column] = safe_numeric(
+            cash_data[column]
+        )
+
+    cash_data = cash_data.dropna(
+        subset=["company_id", "year"]
+    )
+
+    cash_data = cash_data.sort_values(
+        ["company_id", "year"]
+    )
+
+    latest_cash = (
+        cash_data
+        .groupby("company_id", as_index=False)
+        .tail(1)
+        .copy()
+    )
+
+    profit_data = profit_loss.copy()
+
+    profit_numeric_columns = [
+        "year",
+        "sales",
+        "operating_profit",
+        "net_profit"
+    ]
+
+    for column in profit_numeric_columns:
+        profit_data[column] = safe_numeric(
+            profit_data[column]
+        )
+
+    profit_data = profit_data.dropna(
+        subset=["company_id", "year"]
+    )
+
+    profit_data = profit_data.sort_values(
+        ["company_id", "year"]
+    )
+
+    latest_profit = (
+        profit_data
+        .groupby("company_id", as_index=False)
+        .tail(1)
+        .copy()
+    )
+
+    balance_data = balance_sheet.copy()
+
+    balance_data["year"] = safe_numeric(
+        balance_data["year"]
+    )
+
+    balance_data["total_liabilities"] = safe_numeric(
+        balance_data["total_liabilities"]
+    )
+
+    balance_data = balance_data.dropna(
+        subset=["company_id", "year"]
+    )
+
+    balance_data = balance_data.sort_values(
+        ["company_id", "year"]
+    )
+
+    latest_balance = (
+        balance_data
+        .groupby("company_id", as_index=False)
+        .tail(1)
+        .copy()
+    )
+
+    merged = latest_cash.merge(
+        latest_profit[
+            ["company_id", "sales", "operating_profit", "net_profit"]
+        ],
+        on="company_id",
+        how="left"
+    )
+
+    merged = merged.merge(
+        latest_balance[
+            ["company_id", "total_liabilities"]
+        ],
+        on="company_id",
+        how="left"
+    )
+
+    def _safe_call(function, *args):
+        for value in args:
+            if pd.isna(value):
+                return np.nan
+
+        try:
+            result = function(*args)
+        except (ZeroDivisionError, ValueError, TypeError):
+            return np.nan
+
+        return np.nan if result is None else result
+
+    merged["free_cash_flow_value"] = merged.apply(
+        lambda row: _safe_call(
+            free_cash_flow,
+            row["operating_activity"],
+            row["investing_activity"]
+        ),
+        axis=1
+    )
+
+    merged["operating_cash_flow_ratio_value"] = merged.apply(
+        lambda row: _safe_call(
+            cashflow_kpi_ocf_ratio,
+            row["operating_activity"],
+            row["total_liabilities"]
+        ),
+        axis=1
+    )
+
+    merged["cfo_quality_score_value"] = merged.apply(
+        lambda row: _safe_call(
+            cfo_quality_score,
+            row["operating_activity"],
+            row["net_profit"]
+        ),
+        axis=1
+    )
+
+    merged["capex_intensity_value"] = merged.apply(
+        lambda row: _safe_call(
+            capex_intensity,
+            row["investing_activity"],
+            row["sales"]
+        ),
+        axis=1
+    )
+
+    merged["fcf_conversion_ratio_value"] = merged.apply(
+        lambda row: _safe_call(
+            fcf_conversion_ratio,
+            row["free_cash_flow_value"],
+            row["operating_profit"]
+        ),
+        axis=1
+    )
+
+    merged["capital_allocation_pattern_value"] = merged.apply(
+        lambda row: _safe_call(
+            capital_allocation_pattern,
+            row["operating_activity"],
+            row["investing_activity"],
+            row["financing_activity"]
+        ),
+        axis=1
+    )
+
+    return merged[
+        [
+            "company_id",
+            "free_cash_flow_value",
+            "operating_cash_flow_ratio_value",
+            "cfo_quality_score_value",
+            "capex_intensity_value",
+            "fcf_conversion_ratio_value",
+            "capital_allocation_pattern_value"
+        ]
+    ]
 
 
 def percentile_score(series):
@@ -443,6 +802,15 @@ def calculate_financial_score(metrics):
         ),
         "cash_flow_score": (
             "latest_operating_cash_flow"
+        ),
+        "revenue_cagr_score": (
+            "revenue_cagr_percentage"
+        ),
+        "pat_cagr_score": (
+            "pat_cagr_percentage"
+        ),
+        "eps_cagr_score": (
+            "eps_cagr_percentage"
         )
     }
 
@@ -467,7 +835,10 @@ def calculate_financial_score(metrics):
         "roce_score",
         "profit_margin_score",
         "cash_flow_score",
-        "debt_score"
+        "debt_score",
+        "revenue_cagr_score",
+        "pat_cagr_score",
+        "eps_cagr_score"
     ]
 
     data["financial_health_score"] = (
@@ -556,13 +927,25 @@ def compute_metrics():
             analysis
         )
 
+        cagr_metrics = prepare_cagr_metrics(
+            profit_loss
+        )
+
+        cashflow_kpi_metrics = prepare_cashflow_kpis(
+            cash_flow,
+            profit_loss,
+            balance_sheet
+        )
+
         metrics = companies.copy()
 
         datasets = [
             profit_metrics,
             balance_metrics,
             cash_metrics,
-            analysis_metrics
+            analysis_metrics,
+            cagr_metrics,
+            cashflow_kpi_metrics
         ]
 
         for dataset in datasets:
@@ -621,11 +1004,20 @@ def compute_metrics():
             "financial_rating",
             "compounded_sales_growth",
             "compounded_profit_growth",
+            "revenue_cagr_percentage",
+            "pat_cagr_percentage",
+            "eps_cagr_percentage",
             "stock_price_cagr",
             "roe_percentage",
             "roce_percentage",
             "net_profit_margin_percentage",
-            "debt_to_asset_ratio"
+            "debt_to_asset_ratio",
+            "free_cash_flow_value",
+            "operating_cash_flow_ratio_value",
+            "cfo_quality_score_value",
+            "capex_intensity_value",
+            "fcf_conversion_ratio_value",
+            "capital_allocation_pattern_value"
         ]
 
         rankings = metrics[
@@ -702,7 +1094,3 @@ def compute_metrics():
 
     finally:
         connection.close()
-
-
-if __name__ == "__main__":
-    compute_metrics()
