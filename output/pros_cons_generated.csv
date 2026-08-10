@@ -1,0 +1,29 @@
+company_id,type,rule_id,text,confidence_pct
+HDFCBANK,Pro,PRO_01,Strong compounded sales growth above 15%.,90
+HDFCBANK,Pro,PRO_02,Healthy long-term sales growth.,80
+HDFCBANK,Pro,PRO_03,Strong compounded profit growth above 15%.,90
+HDFCBANK,Pro,PRO_04,Healthy long-term profit growth.,80
+HDFCBANK,Pro,PRO_06,Good return on equity.,80
+HDFCBANK,Pro,PRO_07,Sales and profit are both growing strongly.,95
+HDFCBANK,Pro,PRO_08,Profit growth is exceeding sales growth.,85
+HDFCBANK,Pro,PRO_10,Positive stock performance alongside business growth.,75
+HDFCBANK,Pro,PRO_11,Strong profitability supported by healthy ROE.,90
+HDFCBANK,Pro,PRO_12,Consistent business growth profile.,80
+INFY,Pro,PRO_02,Healthy long-term sales growth.,80
+INFY,Pro,PRO_05,High return on equity above 20%.,90
+INFY,Pro,PRO_06,Good return on equity.,80
+INFY,Pro,PRO_10,Positive stock performance alongside business growth.,75
+INFY,Con,CON_08,Profit growth is trailing sales growth.,70
+SBILIFE,Pro,PRO_01,Strong compounded sales growth above 15%.,90
+SBILIFE,Pro,PRO_02,Healthy long-term sales growth.,80
+SBILIFE,Pro,PRO_10,Positive stock performance alongside business growth.,75
+SBILIFE,Con,CON_08,Profit growth is trailing sales growth.,70
+TCS,Pro,PRO_02,Healthy long-term sales growth.,80
+TCS,Pro,PRO_05,High return on equity above 20%.,90
+TCS,Pro,PRO_06,Good return on equity.,80
+TCS,Pro,PRO_10,Positive stock performance alongside business growth.,75
+TCS,Con,CON_08,Profit growth is trailing sales growth.,70
+WIPRO,Pro,PRO_06,Good return on equity.,80
+WIPRO,Pro,PRO_10,Positive stock performance alongside business growth.,75
+WIPRO,Con,CON_04,Weak profit growth below 5%.,75
+WIPRO,Con,CON_08,Profit growth is trailing sales growth.,70
